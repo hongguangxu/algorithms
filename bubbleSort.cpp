@@ -12,7 +12,7 @@ void bubbleSort(vector<T> &v)
 	int j = 0;
         for(int i = 1; i < N; i++)
 	{
-	    if(v[i-1] > v[i])
+	    if(v[i-1] > v[i]) // swap the bigger element forward
 	    {
 	        T temp = v[i];
 		v[i] = move(v[i-1]);
