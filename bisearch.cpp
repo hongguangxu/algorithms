@@ -5,7 +5,7 @@ int BINARY_SEARCH(int A[], int v, int p, int r)
 {
     int q = (p+r)/2, index = -1;
     cout << p << " " << r << endl;
-    if(v==A[q])
+    if(v==A[q])  //if find v when divide the squence, then return the index
         return q;
     if(r>p)
     {
