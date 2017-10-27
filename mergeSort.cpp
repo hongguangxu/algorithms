@@ -2,7 +2,7 @@
 #include<vector>
 using namespace std;
 template<typename T>
-void merge(vector<T>&v, int p, int q, int r)
+int merge(vector<T>&v, int p, int q, int r)
 {
     int n1 = q-p+1;
     int n2 = r-q;
@@ -17,7 +17,7 @@ void merge(vector<T>&v, int p, int q, int r)
     {
         r2[i] = move(v[q+i+1]);
     }
-    int i = 0, j = 0;
+    int i = 0, j = 0, inversion = 0;
     while(i < n1 && j < n2)
     {
         if(r1[i] < r2[j])
@@ -28,6 +28,7 @@ void merge(vector<T>&v, int p, int q, int r)
 	else if(r1[i] > r2[j])
 	{
 	    v[begin++] = move(r2[j++]);
+	    inversion += n1-i;
             //j++;
 	}
 	else
@@ -48,20 +49,21 @@ void merge(vector<T>&v, int p, int q, int r)
         for(int k = j; k < n2; k++)
 	    v[begin++] = move(r2[k]);
     }
-    return;
+    return inversion;
 }
 template<typename T>
-void mergeSort(vector<T>&v, int p, int r)
+int mergeSort(vector<T>&v, int p, int r)
 {
     //cout << p << " " << r << endl;
+    int inversion = 0;
     if(p < r)
     {
         int q = (p+r)/2;
-        mergeSort(v, p, q);
-        mergeSort(v, q+1, r);
-        merge(v, p, q, r);
+        inversion += mergeSort(v, p, q);
+        inversion += mergeSort(v, q+1, r);
+        inversion += merge(v, p, q, r);
     }
-    return;
+    return inversion;
 }
 template<typename T>
 void mergeSort1(vector<T> &v)
@@ -91,10 +93,11 @@ int main()
     int r[7] = {3, 1, 90, 54, 22, 300, 11};
     for(int i = 0; i < 7; i++)
 	v.push_back(r[i]);
-    //mergeSort(v, 0, 6);
-    mergeSort1(v);
+    int inversion = mergeSort(v, 0, 6);
+    //mergeSort1(v);
     for(int i = 0; i < 7; i++)
 	cout << v[i] << " ";
     cout << endl;
+    cout << inversion << endl;
     return 0;
 }
